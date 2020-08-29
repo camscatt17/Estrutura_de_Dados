@@ -168,7 +168,14 @@ int main () {
    Arvore *AVL = NULL;
 
    AVL = inserir (AVL, 'Q');
-   /*Complete!!!*/
+   AVL = inserir (AVL, 'O'); 
+   AVL = inserir (AVL, 'A');
+   AVL = inserir (AVL, 'G');
+   AVL = inserir (AVL, 'W');
+   AVL = inserir (AVL, 'H'); 
+   AVL = inserir (AVL, 'P');
+   AVL = inserir (AVL, 'E');
+   AVL = inserir (AVL, 'N');
 
    //AVL = remover (AVL, 'A');
    //AVL = remover (AVL, 'H');
