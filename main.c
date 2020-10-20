@@ -214,8 +214,6 @@ int main () {
     a = Inserir (a, 10);
     a = Inserir (a, 35);
     a = Inserir (a, 45);
-
-    imprime_decrescente(a);
   
 }
 
