@@ -3,8 +3,14 @@
 #define true 1
 #define false 0
 
+#define TAMANHO 8
+
 typedef int bool;
 typedef int TIPOPESO;
+
+#define BRANCO 0
+#define CINZA 1
+#define PRETO 2
 
 /*Nesse contexto adjacencia é lista de arestas*/ 
 typedef struct adjacencia {
@@ -34,6 +40,17 @@ GRAFO* criaGrafo(int n){
         g->adj[i].cab = NULL; //Todas as adjacencias são null pois não existe aresta
     }
     return g;
+}
+
+void liberar_grafo (GRAFO* g) {
+   int v;
+   for (v = 0; v < g->vertices; v++) {
+      if (g->adj[v].cab != NULL) {
+         free(g->adj[v].cab);
+      }
+   }
+   free(g->adj);
+   free(g);
 }
 
 bool verificaGrafoVazio(GRAFO* g){
@@ -83,14 +100,60 @@ void imprimeGrafo(GRAFO* g){
     }
 }
 
-int main(){
-    GRAFO* g = criaGrafo(5);
-    criaAresta(g, 0, 1);
-    criaAresta(g, 1, 2);
-    criaAresta(g, 2, 0);
-    criaAresta(g, 2, 4);
-    criaAresta(g, 3, 1);
-    criaAresta(g, 4, 3);
+void DFS_Visit(GRAFO* g, int u, int* cor){
+    printf("%d ", u);
+    cor[u]=CINZA;
+    ADJACENCIA* v = g->adj[u].cab;
+    while(v){
+        if(cor[v->vertice]==BRANCO){
+            DFS_Visit(g, v->vertice, cor);
+        }
+        v=v->prox;
+    cor[u]=PRETO;
+    }
+}
 
-    imprimeGrafo(g);
+void Busca_Profundidade(GRAFO* g){
+    int* cor = (int*) malloc(g->vertices*sizeof(int));
+
+    int u;
+    for(u=0; u<g->vertices; u++){
+        cor[u]=BRANCO;
+    }
+    for(u=0; u<g->vertices; u++){
+        if(cor[u] == BRANCO){
+            DFS_Visit(g, u, cor);
+            printf("\n");
+        }
+    }
+
+    free(cor);
+}
+
+
+int main () {
+
+   GRAFO* g = criaGrafo(TAMANHO);
+
+
+   /*Inserção das arestas conforme a aula: */
+   criaAresta(g, 0, 1);   
+   criaAresta(g, 0, 4);   
+   criaAresta(g, 1, 2);   
+   criaAresta(g, 1, 4);   
+   criaAresta(g, 2, 3);   
+   criaAresta(g, 3, 1);   
+   criaAresta(g, 4, 3);   
+   criaAresta(g, 5, 7);   
+   criaAresta(g, 5, 6);   
+   criaAresta(g, 6, 7);   
+   criaAresta(g, 6, 5);   
+   criaAresta(g, 7, 0);   
+   criaAresta(g, 7, 4);   
+
+   Busca_Profundidade(g);
+
+   liberar_grafo(g);
+
+   return 0;
 }
